@@ -1,0 +1,159 @@
+/* Base Button Styles */
+.btn {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+/* Button Variants */
+.btn-return {
+    @extend .btn;
+    background: #ffebee;
+    color: #c62828;
+    padding: 5px 10px;
+
+    &:hover {
+        background: #ffcdd2;
+    }
+}
+
+.btn-assign-more {
+    @extend .btn;
+    background: #e3f2fd;
+    color: #1565c0;
+    margin-top: 8px;
+
+    &:hover {
+        background: #bbdefb;
+    }
+}
+
+.btn-delete {
+    @extend .btn;
+    background: #ffebee;
+    color: #c62828;
+    padding: 8px 12px;
+
+    &:hover {
+        background: #ffcdd2;
+        transform: scale(1.05);
+    }
+
+    /* Icon-only version */
+    &.icon-only {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        justify-content: center;
+    }
+}
+
+/* Table Cell Styles */
+.employee-cell {
+    vertical-align: top;
+    min-width: 200px;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 8px;
+}
+
+/* Employee Details */
+.employee-name {
+    margin-bottom: 5px;
+}
+
+.employee-details {
+    color: #666;
+    font-size: 0.85em;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.employee-poste {
+    font-style: italic;
+}
+
+.employee-email {
+    word-break: break-all;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+
+    /* Status Variants */
+    &.active {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    &.returned {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+}
+
+/* Status Texts */
+.status-text {
+    &.assigned {
+        color: #1565c0;
+        font-weight: 500;
+    }
+
+    &.returned {
+        color: #2e7d32;
+        font-style: italic;
+    }
+}
+
+/* Utility Class */
+.blue {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+/* Add these styles to your existing CSS */
+
+/* Duplicate assignment warning */
+.duplicate-warning {
+    color: #d32f2f;
+    font-size: 0.8em;
+    display: block;
+    margin-top: 4px;
+}
+
+tr.duplicate {
+    background-color: #ffebee;
+}
+
+/* Delete button styling */
+.btn-delete {
+    background: transparent;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+        background: #d32f2f;
+        color: white;
+    }
+}
+
+.actions-cell {
+    display: flex;
+    gap: 8px;
+}

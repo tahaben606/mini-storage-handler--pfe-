@@ -1,0 +1,53 @@
+{
+    "employees": [
+        {
+            "nom": "ben",
+            "prenom": "taha",
+            "email": "tahatest@gmail.com",
+            "poste": "stagiare",
+            "id_employee": 1,
+            "equipment": [
+                2
+            ]
+        }
+    ],
+    "users": [
+        {
+            "name": "taha ben",
+            "email": "tahatest@gmail.com",
+            "password": "tahatest"
+        }
+    ],
+    "equipment": [
+        {
+            "type_materiel": "mouce",
+            "marque": "hp",
+            "modele": "xp-11",
+            "etat": "Attribu\u00e9",
+            "id_materiel": 2
+        },
+        {
+            "type_materiel": "keyboard",
+            "marque": "razor",
+            "modele": "ah-888",
+            "etat": "Disponible",
+            "id_materiel": 3
+        }
+    ],
+    "attributions": [
+        {
+            "id_attribution": 1,
+            "id_employee": 1,
+            "id_materiel": 2,
+            "date_attribution": "2025-04-07T21:26:33.755944",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 2,
+            "id_employee": 1,
+            "id_materiel": 3,
+            "date_attribution": "2025-04-07T21:26:55.247634",
+            "date_retour": "2025-04-07T21:26:58.887109"
+        }
+    ]
+}

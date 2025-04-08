@@ -1,0 +1,1004 @@
+/* ================ */
+/* GLOBAL STYLES */
+/* ================ */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f4f4f9;
+}
+
+h1,
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+section {
+    padding: 2rem;
+    margin: 1rem 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ================ */
+/* HEADER & NAVIGATION */
+/* ================ */
+.header-section {
+    background: #f4f4f4;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* ================ */
+/* BUTTON STYLES */
+/* ================ */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.add-employee-btn {
+    background-color: #4CAF50;
+}
+
+.add-employee-btn:hover {
+    background-color: #45a049;
+}
+
+.add-equipment-btn {
+    background-color: #2196F3;
+}
+
+.add-equipment-btn:hover {
+    background-color: #0b7dda;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.button-group button {
+    margin: 0;
+}
+
+/* ================ */
+/* FORM STYLES */
+/* ================ */
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+    gap: 15px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select {
+    padding: 8px;
+    height: 40px;
+}
+
+/* ================ */
+/* TABLE STYLES */
+/* ================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* ================ */
+/* PAGE-SPECIFIC STYLES */
+/* ================ */
+.employees-page,
+.add-employee-page,
+.assignments-page,
+.equipment-page {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 30px;
+    background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.assignments-page table th {
+    background-color: #28a745;
+}
+
+.assignments-page table tr:hover {
+    background-color: #e9f7e9;
+}
+
+/* ================ */
+/* UTILITY CLASSES */
+/* ================ */
+.text-center {
+    text-align: center;
+}
+
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ================ */
+/* STATUS BADGES */
+/* ================ */
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.status-available {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-assigned {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-in-repair {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-out-of-service {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* ================ */
+/* RESPONSIVE DESIGN */
+/* ================ */
+@media (max-width: 768px) {
+
+    .employees-page,
+    .add-employee-page,
+    .assignments-page,
+    .equipment-page {
+        width: 95%;
+        padding: 15px;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .button-group button {
+        width: 100%;
+    }
+}
+/* ================ */
+/* ASSIGNMENT BUTTONS */
+/* ================ */
+.assign-btn {
+    background-color: #28a745;
+    /* Green color */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin: 2px;
+}
+
+.assign-btn:hover {
+    background-color: #218838;
+    /* Darker green on hover */
+}
+
+/* If you want to keep your existing button structure but make these specific buttons green */
+.button-group .assign-btn {
+    background-color: #28a745;
+}
+
+.button-group .assign-btn:hover {
+    background-color: #218838;
+}
+
+/* Specific button in tables */
+table .assign-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+}
+/* Add to your existing button styles */
+.add-employee-btn,
+.add-equipment-btn,
+.assign-btn {
+    background-color: #28a745;
+    /* Green color */
+}
+
+.add-employee-btn:hover,
+.add-equipment-btn:hover,
+.assign-btn:hover {
+    background-color: #218838;
+    /* Darker green */
+}
+/* Employees Page Styles */
+.employees-page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    color: #2c3e50;
+    font-size: 2rem;
+}
+
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+.btn-edit {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #138496;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-assign {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-assign:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+/* Employees Page Styles */
+.employees-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.employees-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.employees-title {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.employees-table-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.employees-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employees-table th,
+.employees-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.employees-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+    position: sticky;
+    top: 0;
+}
+
+.employees-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.employee-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.no-employees {
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+.no-employees p {
+    margin-bottom: 1rem;
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn i {
+    font-size: 0.9rem;
+}
+
+.btn-add-employee {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-add-employee:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-edit {
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.5rem;
+    min-width: 32px;
+}
+
+.btn-edit:hover {
+    background-color: #138496;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem;
+    min-width: 32px;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-assign {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem;
+    min-width: 32px;
+}
+
+.btn-assign:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .employees-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .employees-table th,
+    .employees-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .employee-actions {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* Equipment Page Styles */
+.equipment-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.equipment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.equipment-title {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.equipment-table-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.equipment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.equipment-table th,
+.equipment-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.equipment-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+    position: sticky;
+    top: 0;
+}
+
+.equipment-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.equipment-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.no-equipment {
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+.no-equipment p {
+    margin-bottom: 1rem;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-disponible {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-attribue {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-en-reparation {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-hors-service {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Button Styles */
+.btn-add-equipment {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-add-equipment:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .equipment-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .equipment-table th,
+    .equipment-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .equipment-actions {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+/* Equipment Page Styles */
+.equipment-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.equipment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.equipment-title {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.equipment-table-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.equipment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.equipment-table th,
+.equipment-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.equipment-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+    position: sticky;
+    top: 0;
+}
+
+.equipment-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.equipment-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-start;
+}
+
+.no-equipment {
+    padding: 2rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+.no-equipment p {
+    margin-bottom: 1rem;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-disponible {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-attribue {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-en-reparation {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-hors-service {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn i {
+    font-size: 0.9rem;
+}
+
+.btn-add-equipment {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-add-equipment:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-edit {
+    background-color: #17a2b8;
+    color: white;
+    padding: 0.5rem;
+    min-width: 32px;
+}
+
+.btn-edit:hover {
+    background-color: #138496;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem;
+    min-width: 32px;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-assign {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem;
+    min-width: 32px;
+}
+
+.btn-assign:hover {
+    background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .equipment-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .equipment-table th,
+    .equipment-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .equipment-actions {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+.attribution-actions {
+    display: flex;
+    gap: 10px;
+    /* Adds space between buttons */
+    align-items: center;
+    /* Ensures buttons are vertically aligned */
+}
+
+.attribution-actions button {
+    padding: 8px 16px;
+    /* Adjust button size for better spacing */
+    font-size: 14px;
+    /* Adjust text size */
+}
+
+.btn-return {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-edit {
+    background-color: #00c3ff;
+    color: white;
+}
+
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-return,
+.btn-edit,
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-return:hover {
+    background-color: #45a049;
+}
+
+.btn-edit:hover {
+    background-color: #0f6873;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+}
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-available {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-assigned {
+    background-color: #bfdbfe;
+    color: #1e40af;
+}
+
+.status-repair {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-out {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}

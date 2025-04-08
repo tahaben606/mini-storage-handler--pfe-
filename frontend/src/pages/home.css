@@ -1,0 +1,94 @@
+/* General Styles */
+.home-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* Logo */
+.home-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.home-logo img {
+    max-width: 150px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.home-logo img:hover {
+    transform: scale(1.1);
+}
+
+/* Main Content */
+.home-content {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Heading Styles */
+.home-content h1 {
+    font-size: 32px;
+    color: #222;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.intro-text {
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Section Styles */
+.home-content h2 {
+    font-size: 22px;
+    color: #444;
+    margin-top: 30px;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 8px;
+}
+
+.home-content p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+/* tele et pc */
+@media (max-width: 768px) {
+    .home-content {
+        padding: 20px;
+    }
+
+    .home-content h1 {
+        font-size: 28px;
+    }
+
+    .home-content h2 {
+        font-size: 20px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

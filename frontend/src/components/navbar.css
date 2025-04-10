@@ -14,6 +14,16 @@
     transition: background 0.3s ease-in-out;
     z-index: 1000;
 }
+.user-info {
+    margin-right: 10px;
+    font-weight: 500;
+    color: #fff;
+}
+.user-info {
+    margin-right: 10px;
+    font-weight: 500;
+    color: #000000;
+}
 
 /* Changement de couleur au scroll */
 .navbar.scrolled {

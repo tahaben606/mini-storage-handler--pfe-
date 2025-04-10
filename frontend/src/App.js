@@ -6,14 +6,23 @@ import Footer from './components/Footer';
 import Home from './pages/home';
 import AddEmployee from './pages/Employees/AddEmployee';
 import EditEmployee from './pages/Employees/EditEmployee';
-import Equipment from './pages/Equipment';
+
 import AddEquipment from './pages/Equipment/AddEquipment';
 import EditEquipment from './pages/Equipment/EditEquipment';
-import Attribution from './pages/Attribution';
+
 import AssignEquipment from './pages/Attribution/AssignEquipment';
-import Employees from './pages/Employees';
+
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import LandingPage from './pages/Landing';
+import AdminDashboard from './pages/AdminDashboard';
+
+import Employees from './pages/Employees/index';
+import Equipment from './pages/Equipment/index';
+import Attribution from './pages/Attribution/index';
+import UEquipment from './pages/Equipment/UIndex';
+import UAttribution from './pages/Attribution/UIndex';
+import UEmployees from './pages/Employees/UIndex';
 
 import './App.css';
 
@@ -24,11 +33,16 @@ const App = () => {
         <Navbar />
         <main className="container mx-auto px-4 py-8">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/employees/add" element={<AddEmployee />} />
             <Route path="/employees/edit/:id" element={<EditEmployee />} />
             <Route path="/equipment" element={<Equipment />} />
+            <Route path="/equipment/index" element={<UEquipment />} />
+            <Route path="/employees/index" element={<UEmployees />} />
+            <Route path="/attribution/index" element={<UAttribution />} />
             <Route path="/equipment/add" element={<AddEquipment />} />
             <Route path="/equipment/edit/:id" element={<EditEquipment />} />
             <Route path="/attribution" element={<Attribution />} />

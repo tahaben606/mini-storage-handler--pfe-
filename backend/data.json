@@ -3,51 +3,66 @@
         {
             "nom": "ben",
             "prenom": "taha",
-            "email": "tahatest@gmail.com",
+            "email": "tahaben606@gmail.com",
             "poste": "stagiare",
             "id_employee": 1,
             "equipment": [
-                2
+                2,
+                3
             ]
         }
     ],
     "users": [
         {
-            "name": "taha ben",
-            "email": "tahatest@gmail.com",
-            "password": "tahatest"
+            "name": "taha",
+            "email": "tahaben606@gmail.com",
+            "password": "testtest",
+            "role": "admin"
+        },
+        {
+            "name": "user",
+            "email": "user@user.com",
+            "password": "testtest",
+            "role": "user"
         }
     ],
     "equipment": [
         {
-            "type_materiel": "mouce",
-            "marque": "hp",
-            "modele": "xp-11",
-            "etat": "Attribu\u00e9",
+            "type_materiel": "Souris",
+            "marque": "Logitech",
+            "modele": "MX Master 3",
+            "etat": "Attribu\u00c3\u00a9",
             "id_materiel": 2
         },
         {
-            "type_materiel": "keyboard",
-            "marque": "razor",
-            "modele": "ah-888",
-            "etat": "Disponible",
+            "type_materiel": "Clavier",
+            "marque": "Corsair",
+            "modele": "K95 RGB",
+            "etat": "Attribu\u00e9",
             "id_materiel": 3
         }
     ],
     "attributions": [
-        {
-            "id_attribution": 1,
-            "id_employee": 1,
-            "id_materiel": 2,
-            "date_attribution": "2025-04-07T21:26:33.755944",
-            "date_retour": null
-        },
         {
             "id_attribution": 2,
             "id_employee": 1,
             "id_materiel": 3,
             "date_attribution": "2025-04-07T21:26:55.247634",
             "date_retour": "2025-04-07T21:26:58.887109"
+        },
+        {
+            "id_attribution": 3,
+            "id_employee": 1,
+            "id_materiel": 2,
+            "date_attribution": "2025-04-09T22:50:53.847145",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 3,
+            "id_employee": 1,
+            "id_materiel": 3,
+            "date_attribution": "2025-04-10T09:19:08.955062",
+            "date_retour": null
         }
     ]
 }

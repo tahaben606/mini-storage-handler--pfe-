@@ -1002,3 +1002,20 @@ tr:hover {
     background-color: #fee2e2;
     color: #b91c1c;
 }
+.top-bar {
+    margin-bottom: 20px;
+}
+
+.btn-back {
+    background-color: #007BFF;
+    border: none;
+    padding: 6px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.btn-back:hover {
+    background-color: #0000a0;
+}

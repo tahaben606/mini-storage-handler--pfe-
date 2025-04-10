@@ -5,7 +5,164 @@
     padding: 40px 20px;
     text-align: center;
 }
+/* Home Container */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
 
+/* Logo Section */
+.home-logo img {
+    max-width: 200px;
+    margin-bottom: 30px;
+}
+
+/* Main Content */
+.home-content {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Welcome Text */
+.home-content h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.home-content .intro-text {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.home-content .role-text {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Admin Tools Section */
+.admin-tools {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.admin-tools h2 {
+    font-size: 1.8rem;
+    color: #ff7f50;
+}
+
+.admin-tools p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.admin-tools .admin-button {
+    display: inline-block;
+    background-color: #ff7f50;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.admin-tools .admin-button:hover {
+    background-color: #e0663a;
+}
+
+/* Features and Services Section */
+.features,
+.services,
+.testimonials {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.features h2,
+.services h2,
+.testimonials h2 {
+    font-size: 1.8rem;
+    color: #0066cc;
+    margin-bottom: 10px;
+}
+
+.features p,
+.services p,
+.testimonials p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.5;
+}
+.admin-tools {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+    text-align: center;
+    /* This centers the content horizontally */
+}
+
+.admin-tools h2 {
+    font-size: 1.8rem;
+    color: #ff7f50;
+}
+
+.admin-tools p {
+    font-size: 1rem;
+    color: #555;
+}
+
+.admin-tools .admin-button {
+    display: inline-block;
+    background-color: #ff7f50;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.admin-tools .admin-button:hover {
+    background-color: #e0663a;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .home-content h1 {
+        font-size: 2rem;
+    }
+
+    .home-content .intro-text {
+        font-size: 1rem;
+    }
+
+    .home-container {
+        padding: 15px;
+    }
+
+    .home-content {
+        padding: 15px;
+    }
+}
 /* Logo */
 .home-logo {
     display: flex;

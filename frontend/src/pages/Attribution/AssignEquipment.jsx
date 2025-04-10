@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useData } from '../../Context/DataContext';
+import { useData } from '../../Context/DataContext';  // Ensure correct import
 import { useNavigate } from 'react-router-dom';
 
 const AssignEquipment = () => {
-  const { employees, equipment, assignEquipment, fetchEquipment } = useData();
+  const { employees, equipment, assignEquipment, fetchEquipment, fetchEmployees } = useData();  // Access fetchEmployees here
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     id_employee: '',
@@ -12,15 +12,14 @@ const AssignEquipment = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Debug logs
-  console.log("All Equipment:", equipment);
-  console.log("Form Data:", formData);
-
-  // Fetch equipment data on component mount
+  // Fetch data on mount
   useEffect(() => {
     const loadData = async () => {
       try {
         await fetchEquipment();
+        if (fetchEmployees) {
+          await fetchEmployees();  // Call fetchEmployees if it is available
+        }
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -28,16 +27,10 @@ const AssignEquipment = () => {
       }
     };
     loadData();
-  }, [fetchEquipment]);
+  }, [fetchEquipment, fetchEmployees]);
 
   // Filter available equipment
-  const availableEquipment = equipment.filter(item => {
-    const isAvailable = item.etat === 'Disponible';
-    const isSelected = item.id_materiel.toString() === formData.id_materiel.toString();
-    return isAvailable || isSelected;
-  });
-
-  console.log("Available Equipment:", availableEquipment);
+  const availableEquipment = equipment.filter(item => item.etat === 'Disponible');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,25 +78,19 @@ const AssignEquipment = () => {
 
         <div className="form-group">
           <label>Equipment:</label>
-          {availableEquipment.length === 0 ? (
-            <div className="no-equipment">
-              <p>No available equipment to assign</p>
-            </div>
-          ) : (
-            <select
-              name="id_materiel"
-              value={formData.id_materiel}
-              onChange={(e) => setFormData({...formData, id_materiel: e.target.value})}
-              required
-            >
-              <option value="">Select Equipment</option>
-              {availableEquipment.map(item => (
-                <option key={item.id_materiel} value={item.id_materiel}>
-                  {item.type_materiel} - {item.marque} ({item.etat})
-                </option>
-              ))}
-            </select>
-          )}
+          <select
+            name="id_materiel"
+            value={formData.id_materiel}
+            onChange={(e) => setFormData({...formData, id_materiel: e.target.value})}
+            required
+          >
+            <option value="">Select Equipment</option>
+            {availableEquipment.map(item => (
+              <option key={item.id_materiel} value={item.id_materiel}>
+                {item.type_materiel} - {item.marque} ({item.etat})
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="button-group">

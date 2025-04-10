@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash, faLaptop } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-
+import '../../App.css';
 
 const Equipment = () => {
   const navigate = useNavigate();
@@ -43,23 +43,21 @@ const Equipment = () => {
 
   return (
     <div className="equipment-container">
+      <div className="top-bar">
+        <button onClick={() => navigate('/admin')} className="btn-back">⬅ Back</button>
+      </div>
+
       <div className="equipment-header">
         <h1>Equipment Management</h1>
-        <button 
-          onClick={() => navigate('/equipment/add')}
-          className="btn-add"
-        >
+        <button onClick={() => navigate('/equipment/add')} className="btn-add">
           <FontAwesomeIcon icon={faPlus} /> Add Equipment
         </button>
       </div>
 
       {equipment.length === 0 ? (
         <div className="empty-state">
-          <p>No equipment found. Add your first equipment to get started.</p>
-          <button 
-            onClick={() => navigate('/equipment/add')}
-            className="btn-add"
-          >
+          <p>No equipment found.</p>
+          <button onClick={() => navigate('/equipment/add')} className="btn-add">
             <FontAwesomeIcon icon={faPlus} /> Add Equipment
           </button>
         </div>
@@ -76,7 +74,7 @@ const Equipment = () => {
             </tr>
           </thead>
           <tbody>
-            {equipment.map((item) => (
+            {equipment.map(item => (
               <tr key={item.id_materiel}>
                 <td>{item.id_materiel}</td>
                 <td>{item.type_materiel}</td>
@@ -88,25 +86,13 @@ const Equipment = () => {
                   </span>
                 </td>
                 <td className="actions">
-                  <button 
-                    onClick={() => navigate(`/equipment/edit/${item.id_materiel}`)}
-                    className="btn-edit"
-                    title="Edit"
-                  >
+                  <button onClick={() => navigate(`/equipment/edit/${item.id_materiel}`)} className="btn-edit">
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
-                  <button 
-                    onClick={() => handleDelete(item.id_materiel)}
-                    className="btn-delete"
-                    title="Delete"
-                  >
+                  <button onClick={() => handleDelete(item.id_materiel)} className="btn-delete">
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
-                  <button 
-                    onClick={() => navigate(`/attribution/assign?equipmentId=${item.id_materiel}`)}
-                    className="btn-assign"
-                    title="Assign"
-                  >
+                  <button onClick={() => navigate(`/attribution/assign?equipmentId=${item.id_materiel}`)} className="btn-assign">
                     <FontAwesomeIcon icon={faLaptop} />
                   </button>
                 </td>

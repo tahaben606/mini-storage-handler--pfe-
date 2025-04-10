@@ -2,33 +2,32 @@ import React from 'react';
 import { useData } from '../../Context/DataContext';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faCheck, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCheck, faTimes, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import '../../App.css';
 
 const Attribution = () => {
   const { attributions, employees, equipment, returnEquipment, deleteAttribution } = useData();
   const navigate = useNavigate();
 
-  // Enhanced attribution grouping with duplicate detection
   const groupedAttributions = attributions.reduce((acc, attribution) => {
     const employeeId = attribution.id_employee;
     const equipmentId = attribution.id_materiel;
-    
+
     if (!acc[employeeId]) {
       acc[employeeId] = {
         employee: employees.find(e => e.id_employee === employeeId),
         assignments: []
       };
     }
-    
+
     const eq = equipment.find(e => e.id_materiel === equipmentId);
     if (eq) {
-      // Check if this equipment is currently assigned (not returned)
-      const isCurrentlyAssigned = attributions.some(a => 
-        a.id_materiel === equipmentId && 
-        a.id_employee === employeeId && 
+      const isCurrentlyAssigned = attributions.some(a =>
+        a.id_materiel === equipmentId &&
+        a.id_employee === employeeId &&
         !a.date_retour
       );
-      
+
       acc[employeeId].assignments.push({
         equipment: eq,
         attribution,
@@ -36,7 +35,7 @@ const Attribution = () => {
         isDuplicate: !attribution.date_retour && isCurrentlyAssigned
       });
     }
-    
+
     return acc;
   }, {});
 
@@ -51,28 +50,18 @@ const Attribution = () => {
     }
   };
 
-const handleDelete = async (attributionId) => {
-  if (window.confirm("Permanently delete this assignment record?")) {
-    try {
-      const success = await deleteAttribution(attributionId);
-      if (success) {
-        // Optional: Add toast notification or state update
-        console.log("Record deleted successfully");
+  const handleDelete = async (attributionId) => {
+    if (window.confirm("Permanently delete this assignment record?")) {
+      try {
+        const success = await deleteAttribution(attributionId);
+        if (success) {
+          console.log("Record deleted successfully");
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert(`Delete failed: ${error.message}`);
       }
-    } catch (error) {
-      console.error("Delete error:", error);
-      alert(`Delete failed: ${error.message}`);
     }
-  }
-};
-
-  // Function to check if equipment can be assigned
-  const canAssignEquipment = (equipmentId, employeeId) => {
-    return !attributions.some(a => 
-      a.id_materiel === equipmentId && 
-      a.id_employee === employeeId && 
-      !a.date_retour
-    );
   };
 
   const handleAssignMore = (employeeId) => {
@@ -81,14 +70,20 @@ const handleDelete = async (attributionId) => {
 
   return (
     <div className="attribution-page">
+      <div className="top-bar">
+        <button onClick={() => navigate('/admin')} className="btn-back">⬅ Back</button>
+      </div>
+
       <div className="attribution-header">
         <h1>Equipment Assignments</h1>
-        <button 
-          onClick={() => navigate('/attribution/assign')}
-          className="btn-primary"
-        >
-          <FontAwesomeIcon icon={faPlus} /> New Assignment
-        </button>
+        <div className="header-actions">
+          <button
+            onClick={() => navigate('/attribution/assign')}
+            className="btn btn-primary"
+          >
+            <FontAwesomeIcon icon={faPlus} /> New Assignment
+          </button>
+        </div>
       </div>
 
       <div className="attribution-table-wrapper">
@@ -106,7 +101,7 @@ const handleDelete = async (attributionId) => {
             {Object.values(groupedAttributions).map((group, index) => (
               <React.Fragment key={index}>
                 {group.assignments.map((assignment, idx) => (
-                  <tr 
+                  <tr
                     key={`${index}-${idx}`}
                     className={`${assignment.isReturned ? 'returned' : 'active'} ${
                       assignment.isDuplicate ? 'duplicate' : ''
@@ -125,7 +120,7 @@ const handleDelete = async (attributionId) => {
                             <div className="employee-email">{group.employee.email}</div>
                           )}
                         </div>
-                        <button 
+                        <button
                           onClick={() => handleAssignMore(group.employee.id_employee)}
                           className="btn-assign-more"
                           disabled={!group.employee}
@@ -156,7 +151,7 @@ const handleDelete = async (attributionId) => {
                     </td>
                     <td className="actions-cell">
                       {!assignment.isReturned ? (
-                        <button 
+                        <button
                           onClick={() => handleReturn(assignment.attribution.id_attribution)}
                           className="btn-return"
                         >

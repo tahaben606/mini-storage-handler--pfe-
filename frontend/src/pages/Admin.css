@@ -1,0 +1,57 @@
+.admin-dashboard {
+    padding: 30px;
+    background-color: #f4f4f4;
+    color: #333;
+    min-height: 100vh;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.admin-header h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+.admin-header p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-top: 10px;
+}
+
+.admin-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 200px;
+    justify-content: center;
+}
+
+.admin-btn:hover {
+    background-color: #2980b9;
+}
+
+.admin-btn:active {
+    background-color: #1d6fa5;
+}
+
+.admin-btn svg {
+    font-size: 1.3rem;
+}

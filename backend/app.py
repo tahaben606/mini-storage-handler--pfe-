@@ -223,9 +223,15 @@ def login():
     users = read_data().get("users", [])
     for user in users:
         if user['email'] == email and user['password'] == password:
-            return jsonify({"token": "fake-jwt-token"}), 200
+            # Send name and role in the login response
+            return jsonify({
+                "token": "fake-jwt-token",
+                "name": user['name'],
+                "role": user['role']
+            }), 200
 
     return jsonify({"error": "Invalid email or password"}), 401
+
 
 @app.route('/api/auth/register', methods=['POST'])
 @app.route('/api/auth/signup', methods=['POST'])
@@ -234,6 +240,7 @@ def signup():
     email = user.get("email")
     name = user.get("name")
     password = user.get("password")
+    role = user.get("role", "user")  # default to 'user'
 
     data = read_data()
     users = data.get("users", [])
@@ -244,12 +251,20 @@ def signup():
     users.append({
         "name": name,
         "email": email,
-        "password": password
+        "password": password,
+        "role": role  # send the role to the frontend
     })
 
     data["users"] = users
     write_data(data)
-    return jsonify({"message": "User registered successfully!"}), 201
+
+    # Send name and role in the response after successful registration
+    return jsonify({
+        "message": "User registered successfully",
+        "name": name,
+        "role": role
+    }), 201
+
 @app.route('/api/attributions/<int:id>', methods=['DELETE'])
 def delete_attribution(id):
     data = read_data()

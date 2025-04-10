@@ -8,28 +8,38 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const navigate = useNavigate(); // hook to redirect
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password
-      });
+  try {
+    const res = await axios.post("http://localhost:5000/api/auth/login", {
+      email,
+      password
+    });
 
-      localStorage.setItem("token", res.data.token);
-      alert("Login successful!");
+    const { name, role } = res.data;
 
-      // ✅ Redirect to home page
-      navigate("/");
-    } catch (err) {
-      // ❌ Set error message clearly
-      setError("Invalid email or password. Please try again.");
+    // Store name and role only
+    localStorage.setItem("name", name);
+    localStorage.setItem("role", role);
+
+    alert(`Welcome ${name}!`);
+
+    // Redirect based on role
+    if (role === "admin") {
+      navigate("/home");
+    } else {
+      navigate("/home");
     }
-  };
+
+  } catch (err) {
+    setError("Invalid email or password. Please try again.");
+  }
+};
+
 
   return (
     <div className="container-login">

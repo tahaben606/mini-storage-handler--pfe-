@@ -1,50 +1,74 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-// Create Context
 const DataContext = createContext();
 
-// Custom Hook
 export const useData = () => useContext(DataContext);
 
-// Provider Component
 export const DataProvider = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [equipment, setEquipment] = useState([]);
   const [attributions, setAttributions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0); // To trigger a refresh when required
 
-  // Fetch employees
-  const fetchEmployees = async () => {
+  // Fetch data function
+  const fetchData = useCallback(async (endpoint, setData) => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setError(null);
     try {
-      const res = await axios.get('http://localhost:5000/api/employees');
-      setEmployees(res.data);
-    } catch (error) {
-      console.error("Error fetching employees:", error);
+      const res = await axios.get(`http://localhost:5000/api/${endpoint}`);
+      setData(res.data);
+      return res.data;
+    } catch (err) {
+      setError(err.message);
+      console.error(`Error fetching ${endpoint}:`, err);
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [isLoading]);
 
-  // Fetch equipment
-  const fetchEquipment = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/equipment');
-      setEquipment(res.data);
-    } catch (error) {
-      console.error("Error fetching equipment:", error);
-    }
-  };
+  // Memoized fetch functions
+  const fetchEmployees = useCallback(() => fetchData('employees', setEmployees), [fetchData]);
+  const fetchEquipment = useCallback(() => fetchData('equipment', setEquipment), [fetchData]);
+  const fetchAttributions = useCallback(() => fetchData('attributions', setAttributions), [fetchData]);
 
-  // Fetch attributions
-  const fetchAttributions = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/attributions');
-      setAttributions(res.data);
-    } catch (error) {
-      console.error("Error fetching attributions:", error);
-    }
-  };
+  // Initial data load
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadInitialData = async () => {
+      try {
+        setIsLoading(true);
+        const [empRes, eqRes, attrRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/employees', { signal: controller.signal }),
+          axios.get('http://localhost:5000/api/equipment', { signal: controller.signal }),
+          axios.get('http://localhost:5000/api/attributions', { signal: controller.signal })
+        ]);
+        setEmployees(empRes.data);
+        setEquipment(eqRes.data);
+        setAttributions(attrRes.data);
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          setError(err.message);
+          console.error("Initial data load error:", err);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadInitialData();
+
+    return () => controller.abort();
+  }, [refreshTrigger]); // Re-fetch data when refreshTrigger changes
 
   // Assign equipment with quantity
-  const assignEquipment = async (employeeId, equipmentId, quantity) => {
+  const assignEquipment = useCallback(async (employeeId, equipmentId, quantity) => {
+    setIsLoading(true);
     try {
       const res = await axios.post('http://localhost:5000/api/attributions', {
         id_employee: employeeId,
@@ -52,28 +76,22 @@ export const DataProvider = ({ children }) => {
         quantity: parseInt(quantity)
       });
 
-      // Update local state
       setEmployees(prev =>
         prev.map(emp => {
           if (emp.id_employee === employeeId) {
             const existingEquipment = emp.equipment || [];
             const existingItem = existingEquipment.find(item => item.id === equipmentId);
             
-            if (existingItem) {
-              return {
-                ...emp,
-                equipment: existingEquipment.map(item => 
-                  item.id === equipmentId 
-                    ? { ...item, quantity: item.quantity + parseInt(quantity) }
-                    : item
-                )
-              };
-            } else {
-              return {
-                ...emp,
-                equipment: [...existingEquipment, { id: equipmentId, quantity: parseInt(quantity) }]
-              };
-            }
+            return {
+              ...emp,
+              equipment: existingItem
+                ? existingEquipment.map(item => 
+                    item.id === equipmentId 
+                      ? { ...item, quantity: item.quantity + parseInt(quantity) }
+                      : item
+                  )
+                : [...existingEquipment, { id: equipmentId, quantity: parseInt(quantity) }]
+            };
           }
           return emp;
         })
@@ -94,44 +112,51 @@ export const DataProvider = ({ children }) => {
       );
 
       setAttributions(prev => [...prev, res.data]);
+
+      setRefreshTrigger(prev => prev + 1); // Trigger re-fetch after assignment
       return res.data;
-    } catch (error) {
-      console.error("Error assigning equipment:", error);
-      throw error;
+    } catch (err) {
+      setError(err.message);
+      console.error("Error assigning equipment:", err);
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, []);
 
   // Return equipment
-  const returnEquipment = async (attributionId) => {
+  const returnEquipment = useCallback(async (attributionId) => {
+    setIsLoading(true);
     try {
-      const res = await axios.put(`http://localhost:5000/api/attributions/${attributionId}/return`);
+      const res = await axios.put(
+        `http://localhost:5000/api/attributions/${attributionId}/return`,
+        {}
+      );
+
       const attribution = attributions.find(a => a.id_attribution === attributionId);
 
       if (attribution) {
-        // Update employee's equipment list
         setEmployees(prev =>
           prev.map(emp => {
             if (emp.id_employee === attribution.id_employee) {
-              const updatedEquipment = (emp.equipment || []).map(item => {
-                if (item.id === attribution.id_materiel) {
-                  return {
-                    ...item,
-                    quantity: item.quantity - (attribution.quantity || 1)
-                  };
-                }
-                return item;
-              }).filter(item => item.quantity > 0);
-              
-              return {
-                ...emp,
-                equipment: updatedEquipment
-              };
+              const updatedEquipment = (emp.equipment || [])
+                .map(item => {
+                  if (item.id === attribution.id_materiel) {
+                    return {
+                      ...item,
+                      quantity: item.quantity - (attribution.quantity || 1)
+                    };
+                  }
+                  return item;
+                })
+                .filter(item => item.quantity > 0);
+
+              return { ...emp, equipment: updatedEquipment };
             }
             return emp;
           })
         );
 
-        // Update equipment quantity and status
         setEquipment(prev =>
           prev.map(eq => {
             if (eq.id_materiel === attribution.id_materiel) {
@@ -145,32 +170,35 @@ export const DataProvider = ({ children }) => {
             return eq;
           })
         );
+
+        setAttributions(prev =>
+          prev.map(attr =>
+            attr.id_attribution === attributionId
+              ? { ...attr, date_retour: res.data.date_retour, isReturned: true }
+              : attr
+          )
+        );
       }
 
-      // Update attribution with return date
-      setAttributions(prev =>
-        prev.map(attr =>
-          attr.id_attribution === attributionId
-            ? { ...attr, date_retour: res.data.date_retour }
-            : attr
-        )
-      );
-
+      setRefreshTrigger(prev => prev + 1); // Trigger re-fetch after return
       return res.data;
-    } catch (error) {
-      console.error("Error returning equipment:", error);
-      throw error;
+    } catch (err) {
+      setError(err.message);
+      console.error("Error returning equipment:", err);
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }, [attributions]);
 
   // Delete attribution
-  const deleteAttribution = async (id_attribution) => {
+  const deleteAttribution = useCallback(async (id_attribution) => {
+    setIsLoading(true);
     try {
       const attribution = attributions.find(a => a.id_attribution === id_attribution);
-      const res = await axios.delete(`http://localhost:5000/api/attributions/${id_attribution}`);
+      await axios.delete(`http://localhost:5000/api/attributions/${id_attribution}`);
 
       if (attribution && !attribution.date_retour) {
-        // If equipment wasn't returned, update quantity
         setEquipment(prev =>
           prev.map(eq => {
             if (eq.id_materiel === attribution.id_materiel) {
@@ -187,37 +215,32 @@ export const DataProvider = ({ children }) => {
       }
 
       setAttributions(prev => prev.filter(attr => attr.id_attribution !== id_attribution));
+      setRefreshTrigger(prev => prev + 1); // Trigger re-fetch after deletion
       return true;
-    } catch (error) {
-      console.error('Error deleting attribution:', error);
-      throw error;
+    } catch (err) {
+      setError(err.message);
+      console.error('Error deleting attribution:', err);
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  // Load data on mount
-  useEffect(() => {
-    fetchEmployees();
-    fetchEquipment();
-    fetchAttributions();
-  }, []);
-
-  const value = {
-    employees,
-    setEmployees,
-    equipment,
-    setEquipment,
-    attributions,
-    setAttributions,
-    fetchEmployees,
-    fetchEquipment,
-    fetchAttributions,
-    assignEquipment,
-    returnEquipment,
-    deleteAttribution
-  };
+  }, [attributions]);
 
   return (
-    <DataContext.Provider value={value}>
+    <DataContext.Provider value={{
+      employees,
+      equipment,
+      attributions,
+      isLoading,
+      error,
+      fetchEmployees,
+      fetchEquipment,
+      fetchAttributions,
+      assignEquipment,
+      returnEquipment,
+      deleteAttribution,
+      setError
+    }}>
       {children}
     </DataContext.Provider>
   );

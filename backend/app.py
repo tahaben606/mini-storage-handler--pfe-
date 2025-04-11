@@ -201,33 +201,57 @@ def create_attribution():
     
     write_data(data)
     return jsonify(new_attribution), 201
-
 @app.route('/api/attributions/<int:id>/return', methods=['PUT'])
 def return_equipment(id):
-    data = read_data()
-    attribution = next((a for a in data.get('attributions', []) if a['id_attribution'] == id), None)
-    
-    if not attribution:
-        return jsonify({"error": "Attribution not found"}), 404
-    
-    if attribution.get('date_retour'):
-        return jsonify({"error": "Equipment already returned"}), 400
-    
-    # Find the equipment and update quantity
-    equipment = next((eq for eq in data['equipment'] if eq['id_materiel'] == attribution['id_materiel']), None)
-    if equipment:
-        returned_quantity = attribution.get('quantity', 1)
-        equipment['quantity'] += returned_quantity
+    try:
+        data = read_data()
+        attribution = next((a for a in data.get('attributions', []) if a['id_attribution'] == id), None)
+
+        if not attribution:
+            return jsonify({"error": "Attribution not found"}), 404
         
-        # Update status if quantity becomes available
-        if equipment['quantity'] > 0:
-            equipment['etat'] = 'Disponible'
-    
-    # Update attribution record
-    attribution['date_retour'] = datetime.now().isoformat()
-    
-    write_data(data)
-    return jsonify(attribution), 200
+        # Vérifie si l'attribution a déjà été retournée
+        if attribution.get('date_retour'):
+            return jsonify({
+                "error": "Equipment already returned",
+                "return_date": attribution['date_retour']
+            }), 400
+        
+        # Optionnel: vérifier que les données de retour sont envoyées correctement
+        if 'quantity' not in attribution:
+            return jsonify({"error": "Missing 'quantity' field in return data"}), 400
+        
+        returned_quantity = int(attribution['quantity'])
+
+        # Vérifie si la quantité est valide
+        if returned_quantity <= 0:
+            return jsonify({"error": "Quantity must be positive"}), 400
+
+        # Mettre à jour l'équipement retourné
+        equipment = next((eq for eq in data['equipment'] if eq['id_materiel'] == attribution['id_materiel']), None)
+        if equipment:
+            equipment['quantity'] += returned_quantity
+            equipment['etat'] = 'Disponible' if equipment['quantity'] > 0 else 'Indisponible'
+
+        # Mise à jour de l'attribution
+        attribution['date_retour'] = datetime.now().isoformat()
+
+        write_data(data)
+        return jsonify({
+            "message": "Equipment returned successfully",
+            "attribution_id": id,
+            "equipment_id": attribution['id_materiel'],
+            "returned_quantity": returned_quantity,
+            "new_quantity": equipment['quantity'],
+            "status": equipment['etat']
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "error": "An error occurred while processing the return",
+            "details": str(e),
+            "attribution_id": id
+        }), 500
 
 # -----------------------
 # Auth Routes
@@ -286,25 +310,28 @@ def signup():
 @app.route('/api/attributions/<int:id>', methods=['DELETE'])
 def delete_attribution(id):
     data = read_data()
-    attributions = data.get('attributions', [])
     
-    # Find the attribution to delete
-    attribution = next((a for a in attributions if a['id_attribution'] == id), None)
-    if not attribution:
-        return jsonify({"error": "Attribution not found"}), 404
+    # Cherche toutes les attributions avec cet ID
+    attributions = [a for a in data.get('attributions', []) if a['id_attribution'] == id]
+
+    # Vérifie qu'on a exactement une attribution (pas 0, pas plusieurs)
+    if len(attributions) != 1:
+        return jsonify({"error": "Attribution not found or duplicate IDs"}), 400
+
+    attribution = attributions[0]
+
+    # Supprimer l'attribution
+    data['attributions'] = [a for a in data['attributions'] if a['id_attribution'] != id]
     
-    # Remove the attribution
-    data['attributions'] = [a for a in attributions if a['id_attribution'] != id]
-    
-    # If equipment was assigned, mark it as available
+    # Si elle n'a pas encore été retournée, on remet l'état du matériel à 'Disponible'
     if not attribution.get('date_retour'):
-        equipment = next((eq for eq in data['equipment'] 
-                        if eq['id_materiel'] == attribution['id_materiel']), None)
+        equipment = next((eq for eq in data['equipment'] if eq['id_materiel'] == attribution['id_materiel']), None)
         if equipment:
             equipment['etat'] = 'Disponible'
-    
+
     write_data(data)
     return jsonify({"message": "Attribution deleted successfully"}), 200
+
 
 # -----------------------
 # Run Server

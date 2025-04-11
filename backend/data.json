@@ -8,8 +8,7 @@
             "id_employee": 1,
             "equipment": [
                 3,
-                4,
-                5
+                4
             ]
         },
         {
@@ -18,9 +17,7 @@
             "email": "test@test.com",
             "poste": "it",
             "id_employee": 2,
-            "equipment": [
-                6
-            ]
+            "equipment": []
         }
     ],
     "users": [
@@ -43,7 +40,7 @@
             "type_materiel": "Ordinateur Portable",
             "marque": "Dell",
             "modele": "XPS 15",
-            "etat": "Attribu\u00e9",
+            "etat": "Attribu\u00c3\u00a9",
             "price": 1499.99,
             "date_achat": "2023-03-01",
             "quantity": 2
@@ -56,17 +53,17 @@
             "etat": "Disponible",
             "price": 99.99,
             "date_achat": "2023-05-15",
-            "quantity": 10
+            "quantity": 9
         },
         {
             "id_materiel": 3,
             "type_materiel": "Clavier",
             "marque": "Corsair",
             "modele": "K95 RGB",
-            "etat": "En r\u00e9paration",
+            "etat": "Disponible",
             "price": 179.99,
             "date_achat": "2022-11-25",
-            "quantity": 5
+            "quantity": 6
         },
         {
             "id_materiel": 4,
@@ -83,79 +80,70 @@
             "type_materiel": "\u00c3\u2030cran",
             "marque": "Samsung",
             "modele": "Odyssey G7",
-            "etat": "Attribu\u00e9",
+            "etat": "Disponible",
             "price": 499.99,
             "date_achat": "2024-06-10",
-            "quantity": 2
+            "quantity": 3
         },
         {
-            "type_materiel": "mouce",
+            "id_materiel": 6,
+            "type_materiel": "Souris",
             "marque": "hp",
             "modele": "xp-117",
-            "etat": "Attribu\u00e9",
-            "price": "96",
+            "etat": "Disponible",
+            "price": 96,
             "date_achat": "2025-01-22",
-            "quantity": "8",
-            "id_materiel": 6
+            "quantity": 9
         }
     ],
     "attributions": [
-        {
-            "id_attribution": 2,
-            "id_employee": 1,
-            "id_materiel": 3,
-            "date_attribution": "2025-04-07T21:26:55.247634",
-            "date_retour": "2025-04-07T21:26:58.887109"
-        },
         {
             "id_attribution": 3,
             "id_employee": 1,
             "id_materiel": 2,
             "date_attribution": "2025-04-09T22:50:53.847145",
-            "date_retour": "2025-04-10T12:24:51.448809"
-        },
-        {
-            "id_attribution": 3,
-            "id_employee": 1,
-            "id_materiel": 3,
-            "date_attribution": "2025-04-10T09:19:08.955062",
-            "date_retour": null
+            "date_retour": "2025-04-10T12:24:51.448809",
+            "quantity": 1
         },
         {
             "id_attribution": 4,
             "id_employee": 1,
             "id_materiel": 3,
-            "date_attribution": "2025-04-10T11:36:55.542956",
-            "date_retour": null
+            "date_attribution": "2025-04-10T09:19:08.955062",
+            "date_retour": null,
+            "quantity": 1
         },
         {
             "id_attribution": 5,
             "id_employee": 1,
             "id_materiel": 4,
             "date_attribution": "2025-04-10T12:24:44.361831",
-            "date_retour": null
+            "date_retour": null,
+            "quantity": 1
         },
         {
             "id_attribution": 6,
             "id_employee": 1,
             "id_materiel": 5,
             "date_attribution": "2025-04-11T09:39:57.363437",
-            "date_retour": null
+            "date_retour": "2025-04-11T11:25:31.552432",
+            "quantity": 1
         },
         {
             "id_attribution": 7,
-            "id_employee": 2,
-            "id_materiel": 6,
-            "date_attribution": "2025-04-11T09:40:27.516084",
-            "date_retour": null
-        },
-        {
-            "id_attribution": 8,
             "id_employee": 2,
             "id_materiel": 1,
             "quantity": 1,
             "date_attribution": "2025-04-11T10:56:24.970062",
             "date_retour": null
+        },
+        {
+            "id_attribution": 8,
+            "id_employee": 2,
+            "id_materiel": 2,
+            "quantity": 1,
+            "date_attribution": "2025-04-11T11:25:24.858038",
+            "date_retour": "2025-04-11T11:55:15.093059"
         }
     ]
-}
+}   

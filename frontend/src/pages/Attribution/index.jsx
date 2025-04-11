@@ -42,7 +42,7 @@ const Attribution = () => {
   const handleReturn = async (attributionId) => {
     if (window.confirm("Return this equipment?")) {
       try {
-        await returnEquipment(attributionId);
+        await returnEquipment(attributionId); // Calls returnEquipment from context
       } catch (error) {
         console.error("Return error:", error);
         alert("Failed to return equipment");

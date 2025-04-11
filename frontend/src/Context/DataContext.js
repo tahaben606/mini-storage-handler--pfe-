@@ -43,29 +43,54 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // Assign equipment
-  const assignEquipment = async (employeeId, equipmentId) => {
+  // Assign equipment with quantity
+  const assignEquipment = async (employeeId, equipmentId, quantity) => {
     try {
       const res = await axios.post('http://localhost:5000/api/attributions', {
         id_employee: employeeId,
-        id_materiel: equipmentId
+        id_materiel: equipmentId,
+        quantity: parseInt(quantity)
       });
 
       // Update local state
       setEmployees(prev =>
-        prev.map(emp =>
-          emp.id_employee === employeeId
-            ? { ...emp, equipment: [...(emp.equipment || []), equipmentId] }
-            : emp
-        )
+        prev.map(emp => {
+          if (emp.id_employee === employeeId) {
+            const existingEquipment = emp.equipment || [];
+            const existingItem = existingEquipment.find(item => item.id === equipmentId);
+            
+            if (existingItem) {
+              return {
+                ...emp,
+                equipment: existingEquipment.map(item => 
+                  item.id === equipmentId 
+                    ? { ...item, quantity: item.quantity + parseInt(quantity) }
+                    : item
+                )
+              };
+            } else {
+              return {
+                ...emp,
+                equipment: [...existingEquipment, { id: equipmentId, quantity: parseInt(quantity) }]
+              };
+            }
+          }
+          return emp;
+        })
       );
 
       setEquipment(prev =>
-        prev.map(eq =>
-          eq.id_materiel === equipmentId
-            ? { ...eq, etat: 'Attribué' }
-            : eq
-        )
+        prev.map(eq => {
+          if (eq.id_materiel === equipmentId) {
+            const newQuantity = eq.quantity - parseInt(quantity);
+            return {
+              ...eq,
+              quantity: newQuantity,
+              etat: newQuantity <= 0 ? 'Indisponible' : 'Disponible'
+            };
+          }
+          return eq;
+        })
       );
 
       setAttributions(prev => [...prev, res.data]);
@@ -80,27 +105,49 @@ export const DataProvider = ({ children }) => {
   const returnEquipment = async (attributionId) => {
     try {
       const res = await axios.put(`http://localhost:5000/api/attributions/${attributionId}/return`);
-
       const attribution = attributions.find(a => a.id_attribution === attributionId);
 
       if (attribution) {
+        // Update employee's equipment list
         setEmployees(prev =>
-          prev.map(emp =>
-            emp.id_employee === attribution.id_employee
-              ? { ...emp, equipment: emp.equipment.filter(eqId => eqId !== attribution.id_materiel) }
-              : emp
-          )
+          prev.map(emp => {
+            if (emp.id_employee === attribution.id_employee) {
+              const updatedEquipment = (emp.equipment || []).map(item => {
+                if (item.id === attribution.id_materiel) {
+                  return {
+                    ...item,
+                    quantity: item.quantity - (attribution.quantity || 1)
+                  };
+                }
+                return item;
+              }).filter(item => item.quantity > 0);
+              
+              return {
+                ...emp,
+                equipment: updatedEquipment
+              };
+            }
+            return emp;
+          })
         );
 
+        // Update equipment quantity and status
         setEquipment(prev =>
-          prev.map(eq =>
-            eq.id_materiel === attribution.id_materiel
-              ? { ...eq, etat: 'Disponible' }
-              : eq
-          )
+          prev.map(eq => {
+            if (eq.id_materiel === attribution.id_materiel) {
+              const newQuantity = eq.quantity + (attribution.quantity || 1);
+              return {
+                ...eq,
+                quantity: newQuantity,
+                etat: newQuantity > 0 ? 'Disponible' : 'Indisponible'
+              };
+            }
+            return eq;
+          })
         );
       }
 
+      // Update attribution with return date
       setAttributions(prev =>
         prev.map(attr =>
           attr.id_attribution === attributionId
@@ -119,14 +166,25 @@ export const DataProvider = ({ children }) => {
   // Delete attribution
   const deleteAttribution = async (id_attribution) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/attributions/${id_attribution}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const attribution = attributions.find(a => a.id_attribution === id_attribution);
+      const res = await axios.delete(`http://localhost:5000/api/attributions/${id_attribution}`);
 
-      if (!res.ok) throw new Error('Failed to delete attribution');
+      if (attribution && !attribution.date_retour) {
+        // If equipment wasn't returned, update quantity
+        setEquipment(prev =>
+          prev.map(eq => {
+            if (eq.id_materiel === attribution.id_materiel) {
+              const newQuantity = eq.quantity + (attribution.quantity || 1);
+              return {
+                ...eq,
+                quantity: newQuantity,
+                etat: newQuantity > 0 ? 'Disponible' : 'Indisponible'
+              };
+            }
+            return eq;
+          })
+        );
+      }
 
       setAttributions(prev => prev.filter(attr => attr.id_attribution !== id_attribution));
       return true;
@@ -155,7 +213,7 @@ export const DataProvider = ({ children }) => {
     fetchAttributions,
     assignEquipment,
     returnEquipment,
-    deleteAttribution // ✅ Included in context
+    deleteAttribution
   };
 
   return (

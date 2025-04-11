@@ -6,6 +6,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
+
 # Data functions
 def read_data():
     try:
@@ -88,21 +89,33 @@ def get_single_equipment(id):
 
 @app.route('/api/equipment', methods=['POST'])
 def add_equipment():
-    new_equipment = request.json
-    if not new_equipment:
-        return jsonify({"error": "Equipment data is required"}), 400
-    
+    new_equipment = request.get_json()
+    print("Received equipment data:", new_equipment)
+
+    equipment = {
+        'type_materiel': new_equipment.get('type_materiel'),
+        'marque': new_equipment.get('marque'),
+        'modele': new_equipment.get('modele'),
+        'etat': new_equipment.get('etat'),
+        'price': new_equipment.get('price'),
+        'date_achat': new_equipment.get('date_achat'),
+        'quantity': new_equipment.get('quantity')
+    }
+
     data = read_data()
-    equipment = data.get("equipment", [])
-    
-    new_id = max([eq['id_materiel'] for eq in equipment], default=0) + 1
-    new_equipment["id_materiel"] = new_id
-    
-    equipment.append(new_equipment)
-    data["equipment"] = equipment
+    equipment_list = data.get("equipment", [])
+
+    equipment['id_materiel'] = len(equipment_list) + 1  # Ajoute un ID unique
+    equipment_list.append(equipment)
+    data["equipment"] = equipment_list
     write_data(data)
-    
-    return jsonify(new_equipment), 201
+
+    return jsonify({'message': 'Équipement ajouté avec succès'}), 201
+
+
+
+
+
 
 @app.route('/api/equipment/<int:id>', methods=['PUT'])
 def update_equipment(id):
@@ -148,7 +161,7 @@ def create_attribution():
     attribution_data = request.json
     
     # Validate required fields
-    if not all(k in attribution_data for k in ['id_employee', 'id_materiel']):
+    if not all(k in attribution_data for k in ['id_employee', 'id_materiel', 'quantity']):
         return jsonify({"error": "Missing required fields"}), 400
     
     # Check if employee exists
@@ -156,25 +169,28 @@ def create_attribution():
     if not employee:
         return jsonify({"error": "Employee not found"}), 404
     
-    # Check if equipment exists
+    # Check if equipment exists and has sufficient quantity
     equipment = next((eq for eq in data['equipment'] if eq['id_materiel'] == attribution_data['id_materiel']), None)
     if not equipment:
         return jsonify({"error": "Equipment not found"}), 404
     
-    # Update equipment status
-    equipment['etat'] = 'Attribué'
+    requested_quantity = int(attribution_data.get('quantity', 1))
+    if equipment.get('quantity', 0) < requested_quantity:
+        return jsonify({"error": "Insufficient quantity available"}), 400
     
-    # Add to user's equipment list
-    if 'equipment' not in employee:
-        employee['equipment'] = []
-    if attribution_data['id_materiel'] not in employee['equipment']:
-        employee['equipment'].append(attribution_data['id_materiel'])
+    # Update equipment quantity
+    equipment['quantity'] -= requested_quantity
+    
+    # Mark as unavailable if quantity reaches 0
+    if equipment['quantity'] <= 0:
+        equipment['etat'] = 'Indisponible'
     
     # Create attribution record
     new_attribution = {
         "id_attribution": len(data.get('attributions', [])) + 1,
         "id_employee": attribution_data['id_employee'],
         "id_materiel": attribution_data['id_materiel'],
+        "quantity": requested_quantity,
         "date_attribution": datetime.now().isoformat(),
         "date_retour": None
     }
@@ -194,16 +210,18 @@ def return_equipment(id):
     if not attribution:
         return jsonify({"error": "Attribution not found"}), 404
     
-    # Find the employee
-    employee = next((e for e in data['employees'] if e['id_employee'] == attribution['id_employee']), None)
-    if employee and 'equipment' in employee:
-        # Remove equipment from user's list
-        employee['equipment'] = [eq_id for eq_id in employee['equipment'] if eq_id != attribution['id_materiel']]
+    if attribution.get('date_retour'):
+        return jsonify({"error": "Equipment already returned"}), 400
     
-    # Find the equipment and update status
+    # Find the equipment and update quantity
     equipment = next((eq for eq in data['equipment'] if eq['id_materiel'] == attribution['id_materiel']), None)
     if equipment:
-        equipment['etat'] = 'Disponible'
+        returned_quantity = attribution.get('quantity', 1)
+        equipment['quantity'] += returned_quantity
+        
+        # Update status if quantity becomes available
+        if equipment['quantity'] > 0:
+            equipment['etat'] = 'Disponible'
     
     # Update attribution record
     attribution['date_retour'] = datetime.now().isoformat()

@@ -8,6 +8,9 @@ body {
     line-height: 1.6;
     background-color: #f4f4f9;
 }
+.actions{
+    margin-left: 50px;
+}
 
 h1,
 h2 {

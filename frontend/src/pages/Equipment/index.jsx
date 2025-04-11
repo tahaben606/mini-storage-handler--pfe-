@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit, faTrash, faLaptop } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash, faLaptop, faEye } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import '../../App.css';
 
@@ -38,6 +38,10 @@ const Equipment = () => {
     }
   };
 
+  const handleViewDetails = (id) => {
+    navigate(`/equipment/details/${id}`); // Navigate to the details page of the selected equipment
+  };
+
   if (loading) return <div className="loading">Loading equipment...</div>;
   if (error) return <div className="error">Error: {error}</div>;
 
@@ -70,7 +74,7 @@ const Equipment = () => {
               <th>Brand</th>
               <th>Model</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th className='actions'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -94,6 +98,9 @@ const Equipment = () => {
                   </button>
                   <button onClick={() => navigate(`/attribution/assign?equipmentId=${item.id_materiel}`)} className="btn-assign">
                     <FontAwesomeIcon icon={faLaptop} />
+                  </button>
+                  <button onClick={() => handleViewDetails(item.id_materiel)} className="btn-view">
+                    <FontAwesomeIcon icon={faEye} /> {/* Eye icon for View Details */}
                   </button>
                 </td>
               </tr>

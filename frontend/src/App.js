@@ -23,6 +23,7 @@ import Attribution from './pages/Attribution/index';
 import UEquipment from './pages/Equipment/UIndex';
 import UAttribution from './pages/Attribution/UIndex';
 import UEmployees from './pages/Employees/UIndex';
+import EquipmentDetails from './pages/Equipment/EquipmentDetails';
 
 import './App.css';
 
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/employees" element={<Employees />} />
             <Route path="/employees/add" element={<AddEmployee />} />
             <Route path="/employees/edit/:id" element={<EditEmployee />} />
+            <Route path="/equipment/details/:id" element={<EquipmentDetails />} />
             <Route path="/equipment" element={<Equipment />} />
             <Route path="/equipment/index" element={<UEquipment />} />
             <Route path="/employees/index" element={<UEmployees />} />

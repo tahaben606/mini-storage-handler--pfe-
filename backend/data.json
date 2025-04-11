@@ -7,8 +7,19 @@
             "poste": "stagiare",
             "id_employee": 1,
             "equipment": [
-                2,
-                3
+                3,
+                4,
+                5
+            ]
+        },
+        {
+            "nom": "test",
+            "prenom": "test",
+            "email": "test@test.com",
+            "poste": "it",
+            "id_employee": 2,
+            "equipment": [
+                6
             ]
         }
     ],
@@ -28,18 +39,64 @@
     ],
     "equipment": [
         {
+            "id_materiel": 1,
+            "type_materiel": "Ordinateur Portable",
+            "marque": "Dell",
+            "modele": "XPS 15",
+            "etat": "Attribu\u00e9",
+            "price": 1499.99,
+            "date_achat": "2023-03-01",
+            "quantity": 2
+        },
+        {
+            "id_materiel": 2,
             "type_materiel": "Souris",
             "marque": "Logitech",
             "modele": "MX Master 3",
-            "etat": "Attribu\u00c3\u00a9",
-            "id_materiel": 2
+            "etat": "Disponible",
+            "price": 99.99,
+            "date_achat": "2023-05-15",
+            "quantity": 10
         },
         {
+            "id_materiel": 3,
             "type_materiel": "Clavier",
             "marque": "Corsair",
             "modele": "K95 RGB",
+            "etat": "En r\u00e9paration",
+            "price": 179.99,
+            "date_achat": "2022-11-25",
+            "quantity": 5
+        },
+        {
+            "id_materiel": 4,
+            "type_materiel": "Casque audio",
+            "marque": "Bose",
+            "modele": "QuietComfort 35 II",
+            "etat": "Hors service",
+            "price": 299.99,
+            "date_achat": "2021-08-30",
+            "quantity": 4
+        },
+        {
+            "id_materiel": 5,
+            "type_materiel": "\u00c3\u2030cran",
+            "marque": "Samsung",
+            "modele": "Odyssey G7",
             "etat": "Attribu\u00e9",
-            "id_materiel": 3
+            "price": 499.99,
+            "date_achat": "2024-06-10",
+            "quantity": 2
+        },
+        {
+            "type_materiel": "mouce",
+            "marque": "hp",
+            "modele": "xp-117",
+            "etat": "Attribu\u00e9",
+            "price": "96",
+            "date_achat": "2025-01-22",
+            "quantity": "8",
+            "id_materiel": 6
         }
     ],
     "attributions": [
@@ -55,13 +112,49 @@
             "id_employee": 1,
             "id_materiel": 2,
             "date_attribution": "2025-04-09T22:50:53.847145",
-            "date_retour": null
+            "date_retour": "2025-04-10T12:24:51.448809"
         },
         {
             "id_attribution": 3,
             "id_employee": 1,
             "id_materiel": 3,
             "date_attribution": "2025-04-10T09:19:08.955062",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 4,
+            "id_employee": 1,
+            "id_materiel": 3,
+            "date_attribution": "2025-04-10T11:36:55.542956",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 5,
+            "id_employee": 1,
+            "id_materiel": 4,
+            "date_attribution": "2025-04-10T12:24:44.361831",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 6,
+            "id_employee": 1,
+            "id_materiel": 5,
+            "date_attribution": "2025-04-11T09:39:57.363437",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 7,
+            "id_employee": 2,
+            "id_materiel": 6,
+            "date_attribution": "2025-04-11T09:40:27.516084",
+            "date_retour": null
+        },
+        {
+            "id_attribution": 8,
+            "id_employee": 2,
+            "id_materiel": 1,
+            "quantity": 1,
+            "date_attribution": "2025-04-11T10:56:24.970062",
             "date_retour": null
         }
     ]

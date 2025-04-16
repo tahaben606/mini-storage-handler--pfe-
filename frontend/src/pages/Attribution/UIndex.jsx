@@ -9,68 +9,66 @@ const UAttribution = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAttributions = async () => {
+    const fetchAllData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/attributions');
-        const attributionData = response.data;
+        const [attrRes, empRes, eqRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/attributions'),
+          axios.get('http://localhost:5000/api/employees'),
+          axios.get('http://localhost:5000/api/equipment')
+        ]);
 
-        const employeesResponse = await axios.get('http://localhost:5000/api/employees');
-        const equipmentResponse = await axios.get('http://localhost:5000/api/equipment');
+        const employeesMap = new Map(empRes.data.map(e => [e.id_employee, e]));
+        const equipmentMap = new Map(eqRes.data.map(eq => [eq.id_materiel, eq]));
 
-        const attributionsWithDetails = attributionData.map(attribution => {
-          const employee = employeesResponse.data.find(e => e.id_employee === attribution.id_employee);
-          const equipment = equipmentResponse.data.find(eq => eq.id_materiel === attribution.id_materiel);
-          
-          return {
-            ...attribution,
-            employee,
-            equipment
-          };
-        });
+        const merged = attrRes.data.map(attr => ({
+          ...attr,
+          employee: employeesMap.get(attr.id_employee),
+          equipment: equipmentMap.get(attr.id_materiel)
+        }));
 
-        setAttributions(attributionsWithDetails);
+        setAttributions(merged);
         setError(null);
       } catch (err) {
-        setError(err.message);
-        console.error("Error fetching attributions:", err);
+        console.error("Error fetching data:", err);
+        setError("Une erreur s’est produite lors du chargement des données.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAttributions();
+    fetchAllData();
   }, []);
 
-  if (loading) return <div className="loading">Loading attributions...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
+  if (loading) return <div className="loading">Chargement des attributions...</div>;
+  if (error) return <div className="error">Erreur : {error}</div>;
 
   return (
-    <div className="attribution-container">
-      <div className="attribution-header">
-        <h1>Attribution View</h1>
-      </div>
+    <div className="attribution-container p-4">
+      <h1 className="text-xl font-bold mb-4">Liste des Attributions</h1>
 
       {attributions.length === 0 ? (
-        <div className="empty-state">
-          <p>No attributions found.</p>
-        </div>
+        <p>Aucune attribution trouvée.</p>
       ) : (
-        <table className="attribution-table">
-          <thead>
+        <table className="w-full border text-sm">
+          <thead className="bg-gray-200">
             <tr>
-              <th>Employee</th>
-              <th>Equipment</th>
-              <th>Assigned On</th>
-              <th>Status</th>
+              <th className="p-2">Employé</th>
+              <th className="p-2">Matériel</th>
+              <th className="p-2">Date d’attribution</th>
+              <th className="p-2">Statut</th>
             </tr>
           </thead>
           <tbody>
-            {attributions.map((attribution) => (
-              <tr key={attribution.id_attribution}>
-                <td>{attribution.employee?.prenom} {attribution.employee?.nom}</td>
-                <td>{attribution.equipment?.type_materiel}</td>
-                <td>{new Date(attribution.date_attribution).toLocaleDateString()}</td>
-                <td>{attribution.date_retour ? 'Returned' : 'Assigned'}</td>
+            {attributions.map(attr => (
+              <tr key={attr.id_attribution} className="border-t">
+                <td className="p-2">{attr.employee?.prenom} {attr.employee?.nom}</td>
+                <td className="p-2">{attr.equipment?.type_materiel}</td>
+                <td className="p-2">
+                  {new Date(attr.date_attribution).toLocaleDateString()}
+                </td>
+                <td className="p-2">
+                  {attr.date_retour ? 'Retourné' : 'Attribué'}
+                </td>
               </tr>
             ))}
           </tbody>

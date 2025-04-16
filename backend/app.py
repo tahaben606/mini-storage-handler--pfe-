@@ -32,13 +32,21 @@ def add_employee():
     new_employee = request.json
     data = read_data()
     employees = data.get("employees", [])
-    
+
+    # Vérifie si un employé avec le même email existe déjà
+    for emp in employees:
+        if emp.get("email") == new_employee.get("email"):
+            return jsonify({"error": "Cet employé existe déjà avec cet email."}), 400
+
+    # Ajoute l'employé s'il n'existe pas
     new_employee["id_employee"] = len(employees) + 1
     employees.append(new_employee)
     
     data["employees"] = employees
     write_data(data)
+
     return jsonify(new_employee), 201
+
 
 @app.route('/api/employees/<int:id>', methods=['PUT'])
 def update_employee(id):

@@ -10,14 +10,6 @@
                 3,
                 4
             ]
-        },
-        {
-            "nom": "test",
-            "prenom": "test",
-            "email": "test@test.com",
-            "poste": "it",
-            "id_employee": 2,
-            "equipment": []
         }
     ],
     "users": [
@@ -32,6 +24,12 @@
             "email": "user@user.com",
             "password": "testtest",
             "role": "user"
+        },
+        {
+            "name": "hello",
+            "email": "hello@gmail.com",
+            "password": "hellohello",
+            "role": "user"
         }
     ],
     "equipment": [
@@ -40,17 +38,17 @@
             "type_materiel": "Ordinateur Portable",
             "marque": "Dell",
             "modele": "XPS 15",
-            "etat": "Attribu\u00c3\u00a9",
+            "etat": "Disponible",
             "price": 1499.99,
             "date_achat": "2023-03-01",
-            "quantity": 2
+            "quantity": 3
         },
         {
             "id_materiel": 2,
             "type_materiel": "Souris",
             "marque": "Logitech",
             "modele": "MX Master 3",
-            "etat": "Disponible",
+            "etat": "En r\u00e9paration",
             "price": 99.99,
             "date_achat": "2023-05-15",
             "quantity": 9
@@ -77,13 +75,13 @@
         },
         {
             "id_materiel": 5,
-            "type_materiel": "\u00c3\u2030cran",
+            "type_materiel": "Ecran",
             "marque": "Samsung",
             "modele": "Odyssey G7",
             "etat": "Disponible",
             "price": 499.99,
             "date_achat": "2024-06-10",
-            "quantity": 3
+            "quantity": 0
         },
         {
             "id_materiel": 6,
@@ -128,22 +126,7 @@
             "date_attribution": "2025-04-11T09:39:57.363437",
             "date_retour": "2025-04-11T11:25:31.552432",
             "quantity": 1
-        },
-        {
-            "id_attribution": 7,
-            "id_employee": 2,
-            "id_materiel": 1,
-            "quantity": 1,
-            "date_attribution": "2025-04-11T10:56:24.970062",
-            "date_retour": null
-        },
-        {
-            "id_attribution": 8,
-            "id_employee": 2,
-            "id_materiel": 2,
-            "quantity": 1,
-            "date_attribution": "2025-04-11T11:25:24.858038",
-            "date_retour": "2025-04-11T11:55:15.093059"
         }
+
     ]
-}   
+}

@@ -32,29 +32,41 @@ const AddEmployee = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsSubmitting(true);
-    
-    try {
-      const response = await axios.post(
-        'http://localhost:5000/api/employees',
-        form
-      );
-      
-      // Update context state
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!validateForm()) return;
+
+  setIsSubmitting(true);
+
+  try {
+    const response = await axios.post(
+      'http://localhost:5000/api/employees',
+      form
+    );
+
+    // Vérifie si la réponse est correcte avant de mettre à jour
+    if (response.data) {
       setEmployees(prevEmployees => [...prevEmployees, response.data]);
-      
+
+      // Réinitialise le formulaire
+      setForm({
+        nom: '',
+        prenom: '',
+        email: '',
+        poste: ''
+      });
+
+      // Redirige vers /employees
       navigate('/employees');
-    } catch (error) {
-      console.error('Error adding employee:', error);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout de l\'employé :', error);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

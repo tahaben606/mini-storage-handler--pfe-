@@ -3,13 +3,20 @@
         {
             "nom": "ben",
             "prenom": "taha",
-            "email": "tahaben606@gmail.com",
+            "email": "tahaben@gmail.com",
             "poste": "stagiare",
             "id_employee": 1,
             "equipment": [
                 3,
                 4
             ]
+        },
+        {
+            "nom": "test",
+            "prenom": "test",
+            "email": "test@test.com",
+            "poste": "test",
+            "id_employee": 2
         }
     ],
     "users": [
@@ -20,7 +27,7 @@
             "role": "admin"
         },
         {
-            "name": "user",
+            "name": "Taha",
             "email": "user@user.com",
             "password": "testtest",
             "role": "user"
@@ -30,6 +37,12 @@
             "email": "hello@gmail.com",
             "password": "hellohello",
             "role": "user"
+        },
+        {
+            "name": "mehdi",
+            "email": "jhbjhvjv@gmail.com",
+            "password": "jabejbvakjfvkavfk",
+            "role": "user"
         }
     ],
     "equipment": [
@@ -38,10 +51,10 @@
             "type_materiel": "Ordinateur Portable",
             "marque": "Dell",
             "modele": "XPS 15",
-            "etat": "Disponible",
+            "etat": "Indisponible",
             "price": 1499.99,
             "date_achat": "2023-03-01",
-            "quantity": 3
+            "quantity": 0
         },
         {
             "id_materiel": 2,
@@ -68,10 +81,10 @@
             "type_materiel": "Casque audio",
             "marque": "Bose",
             "modele": "QuietComfort 35 II",
-            "etat": "Hors service",
+            "etat": "Disponible",
             "price": 299.99,
             "date_achat": "2021-08-30",
-            "quantity": 4
+            "quantity": 5
         },
         {
             "id_materiel": 5,
@@ -116,17 +129,24 @@
             "id_employee": 1,
             "id_materiel": 4,
             "date_attribution": "2025-04-10T12:24:44.361831",
-            "date_retour": null,
+            "date_retour": "2025-06-06T17:09:00.117567",
             "quantity": 1
         },
         {
+            "id_attribution": 5,
+            "id_employee": 2,
+            "id_materiel": 1,
+            "quantity": 1,
+            "date_attribution": "2025-06-06T17:21:23.083400",
+            "date_retour": null
+        },
+        {
             "id_attribution": 6,
-            "id_employee": 1,
-            "id_materiel": 5,
-            "date_attribution": "2025-04-11T09:39:57.363437",
-            "date_retour": "2025-04-11T11:25:31.552432",
-            "quantity": 1
+            "id_employee": 2,
+            "id_materiel": 1,
+            "quantity": 1,
+            "date_attribution": "2025-06-06T17:21:23.141273",
+            "date_retour": null
         }
-
     ]
 }
